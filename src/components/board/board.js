@@ -10,9 +10,13 @@ class Board extends Component {
         this.state = {
             isGameAwesome: true,
             guessStreakAlive: true,
-            /*listOfcards: Array(24).fill(null),*/
+            listOfcards: Array(24).fill(null),
             /* TODO: keep track of 24 cards but only render 12 */
         };
+    }
+
+    componentDidMount() {
+
     }
 
     clickHandler(thing) {
@@ -35,6 +39,20 @@ class Board extends Component {
     }
 
     renderCard(index) {
+        /*
+        let aCard = {
+            cardKey: index,
+            hasBeenChosen: false,
+            imgUrl: "https://",
+            imgLink: "fry-headshot.jpg"
+        };
+        let updatedList = this.state.listOfcards;
+        updatedList[index] = aCard;
+        this.setState({
+            listOfcards: updatedList
+        });
+        */
+
         return(
             <Card
                 value={index}
