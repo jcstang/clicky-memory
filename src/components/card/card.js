@@ -4,8 +4,7 @@ class Card extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cardKey: null,
-            cardValue: props.value,
+            cardKey: props.value,
             hasBeenChosen: false,
             imgUrl: "https://",
             imgLink: "fry-headshot.jpg"
@@ -15,10 +14,9 @@ class Card extends Component {
     onClickHandler() {
         console.log('*********************************************************');
         console.log(this.props);
-        console.log(`cardKey: ${this.state.cardKey}`);
         console.log('*********************************************************');
         this.setState({
-            hasBeenChosen: !this.state.hasBeenChosen
+            hasBeenChosen: !this.state.hasBeenChosen,
         });
 
         /* TODO: how to pass data BACK to board
