@@ -30,7 +30,8 @@ class Board extends Component {
 
     isWinningHandler() {
         /* do stuff here to check if game won?? */
-        console.log('isWinningHandler');
+        // console.log('isWinningHandler');
+        return true;
     }
 
     renderCard(index) {
