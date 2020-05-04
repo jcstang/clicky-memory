@@ -7,16 +7,27 @@ class Card extends Component {
             cardKey: null,
             hasBeenChosen: false,
             imgUrl: "https://",
-            imgLink: ""
+            imgLink: "fry-headshot.jpg"
         }
     }
 
-    render() {
+    onClickHandler(props) {
+        props.isWinningHandler();
+        console.log('*********************************************************');
+        console.log(`cardKey: ${this.state.cardKey}`);
+        console.log('*********************************************************');
+        this.setState({
+            hasBeenChosen: !this.state.hasBeenChosen
+        });
+    }
+
+    render(props) {
+        console.log(props);
         return (
             <div className="col-lg-3 align-items-stretch">
-            <button className="btn" onClick={this.props.onClick}>
-                <div className="card" value={this.props.value}>
-                    <img className="card-img-top" src="./Fry_Looking_Squint.jpg" alt="" />
+            <button className="btn" onClick={() => this.onClickHandler(props)}>
+                <div className="card" value={props.value}>
+                    <img className="card-img-top" src={this.state.imgLink} alt="" />
                 </div>
             </button>
             </div>
