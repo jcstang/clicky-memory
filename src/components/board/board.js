@@ -2,7 +2,10 @@ import React, { Component } from 'react';
 import Card from '../card/card';
 import Navbar from '../navbar/navbar';
 import Appheader from '../appheader/appheader';
+import { masterList } from '../../data-list';
 import './index.css';
+
+// let masterCardList = [];
 
 class Board extends Component {
     constructor(props) {
@@ -10,13 +13,13 @@ class Board extends Component {
         this.state = {
             isGameAwesome: true,
             guessStreakAlive: true,
-            listOfcards: Array(24).fill(null),
+            currCardList: Array(12).fill(null),
             /* TODO: keep track of 24 cards but only render 12 */
         };
     }
 
     componentDidMount() {
-
+        this.setRandomCards();
     }
 
     clickHandler(thing) {
@@ -38,28 +41,40 @@ class Board extends Component {
         return true;
     }
 
-    renderCard(index) {
-        /*
-        let aCard = {
-            cardKey: index,
-            hasBeenChosen: false,
-            imgUrl: "https://",
-            imgLink: "fry-headshot.jpg"
-        };
-        let updatedList = this.state.listOfcards;
-        updatedList[index] = aCard;
-        this.setState({
-            listOfcards: updatedList
-        });
-        */
+    renderCard(card, index) {
+
+        const selectedCard = this.pickRandomCard();
+
+
 
         return(
             <Card
+                /* need to get rid of value */
                 value={index}
+                currCard={card}
                 /* FIXME: below needs work */
                 isWinningHandler={this.isWinningHandler()}
             />
         );
+    }
+
+    pickRandomCard() {
+        const randomIndex = Math.floor(Math.random() * 24) + 1;
+        return (
+            masterList[randomIndex]
+        );
+    }
+
+    setRandomCards() {
+        var selectedArray = [];
+        while(selectedArray.length < 12){
+            var r = Math.floor(Math.random() * 24) + 1;
+            if(selectedArray.indexOf(r) === -1) selectedArray.push(r);
+        }
+
+        this.setState = {
+            currCardList: selectedArray
+        }
     }
 
     render() {
@@ -70,24 +85,73 @@ class Board extends Component {
                 <div className="container">
                     {/* First Row */}
                     <div className="row">
-                        {this.renderCard(1)}
-                        {this.renderCard(2)}
-                        {this.renderCard(3)}
-                        {this.renderCard(4)}
+                        {
+                            this.state.currCardList.map((card, i) => (
+                                this.renderCard(i, card)
+                            ))
+                        }
+                        { this.renderCard(0, this.currCardList[0]) }
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(1, card)
+                            ))
+                        }
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(2, card)
+                            ))
+                        }
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(3, card)
+                            ))
+                        }
                     </div>
                     {/* Second Row */}
                     <div className="row">
-                        {this.renderCard(5)}
-                        {this.renderCard(6)}
-                        {this.renderCard(7)}
-                        {this.renderCard(8)}
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(4, card)
+                            ))
+                        }
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(5, card)
+                            ))
+                        }
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(6, card)
+                            ))
+                        }
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(7, card)
+                            ))
+                        }
                     </div>
                     {/* Third Row */}
                     <div className="row">
-                        {this.renderCard(9)}
-                        {this.renderCard(10)}
-                        {this.renderCard(11)}
-                        {this.renderCard(12)}
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(8, card)
+                            ))
+                        }
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(9, card)
+                            ))
+                        }
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(10, card)
+                            ))
+                        }
+                        {
+                            this.state.currCardList.map(card => (
+                                this.renderCard(11, card)
+                            ))
+                        }
                     </div>
                 </div>
 

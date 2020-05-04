@@ -4,9 +4,9 @@ class Card extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            cardKey: props.value,
+            cardKey: props.currCard.cardKey,
             hasBeenChosen: false,
-            imgUrl: "https://",
+            imgUrl: props.currCard.imgUrl,
             imgLink: "fry-headshot.jpg"
         }
     }
@@ -31,7 +31,7 @@ class Card extends Component {
             <div className="col-lg-3 align-items-stretch">
             <button className="btn" onClick={() => this.onClickHandler(props)}>
                 <div className="card">
-                    <img className="card-img-top" src={this.state.imgLink} alt="" />
+                    <img className="card-img-top" src={this.state.imgUrl} alt="" />
                 </div>
             </button>
             </div>
