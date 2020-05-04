@@ -14,11 +14,18 @@ class Card extends Component {
 
     onClickHandler() {
         console.log('*********************************************************');
+        console.log(this.props);
         console.log(`cardKey: ${this.state.cardKey}`);
         console.log('*********************************************************');
         this.setState({
             hasBeenChosen: !this.state.hasBeenChosen
         });
+
+        /* TODO: how to pass data BACK to board
+        * i.e. this card has been clicked already so game needs to start over
+        */
+
+        /* TODO: re-render the 12 cards */
     }
 
     render(props) {

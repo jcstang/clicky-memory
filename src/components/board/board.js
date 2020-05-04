@@ -38,6 +38,7 @@ class Board extends Component {
         return(
             <Card
                 value={index}
+                /* FIXME: below needs work */
                 isWinningHandler={this.isWinningHandler()}
             />
         );
