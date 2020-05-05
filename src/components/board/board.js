@@ -19,41 +19,53 @@ class Board extends Component {
             //cardList: imageCards,
             //currCardList: this.setRandomCards(),
             dataList: data,
-            selectedArrOf12: [],
+            dataListOf12: [],
             clickedImageIds: []
             /* TODO: keep track of 24 cards but only render 12 */
         };
     }
 
     componentDidMount() {
-
-        const fullShuffledList = this.setRandomCards(this.state.dataList);
-        const first12 = fullShuffledList.slice(0, 11);
-
+        this.shuffleDataAndSet();
+    }
+    
+    shuffleDataAndSet() {
+        const fullShuffledList = this.shuffleArrayOfCards(this.state.dataList);
+        const first12 = fullShuffledList.slice(0, 12);
+    
         this.setState({
             dataList: fullShuffledList,
-            selectedArrOf12: first12
+            dataListOf12: first12
         });
     }
 
-    clickHandler(thing) {
-        /* modify state, other click things */
-        // console.log('hi I am a log consoling myself here');
-        console.log('*********************************************************');
-        console.log(`isGameAwesome: ${this.state.isGameAwesome}`);
-        console.log(`cardKey: ${this.state.cardKey}`);
+    resetGameBoard() {
+        // reset score
+        // clear the clicked ids array
         this.setState({
-            isGameAwesome: !this.state.isGameAwesome
+            currScore: 0,
+            clickedImageIds: []
         });
-
-        console.log('*********************************************************');
     }
 
-    isWinningHandler() {
-        /* do stuff here to check if game won?? */
-        // console.log('isWinningHandler');
-        return true;
-    }
+    // clickHandler(thing) {
+    //     /* modify state, other click things */
+    //     // console.log('hi I am a log consoling myself here');
+    //     console.log('*********************************************************');
+    //     console.log(`isGameAwesome: ${this.state.isGameAwesome}`);
+    //     console.log(`cardKey: ${this.state.cardKey}`);
+    //     this.setState({
+    //         isGameAwesome: !this.state.isGameAwesome
+    //     });
+
+    //     console.log('*********************************************************');
+    // }
+
+    // isWinningHandler() {
+    //     /* do stuff here to check if game won?? */
+    //     // console.log('isWinningHandler');
+    //     return true;
+    // }
 
     // resetData = data => {
     //     const resetData = data.map(item => ({ ...item, clicked: false }));
@@ -61,106 +73,101 @@ class Board extends Component {
     // };
 
     handleItemClick = (id) => {
-        // set the object with id as true
+        // click handler should do the following
+        // 1. check if clicked image had been selected before.
+        // 1a. if false,
+        //          then +1 to the score
+        //          then add the id to the array of clicked ids
+        // 1b. if true,
+        //          then stop game
+        //          then reset score
+        //          then clear the clicked ids array
+        // 2. shuffle the cards
+
 
         //Check if the image is clicked twice
         if (this.state.clickedImageIds.includes(id)) {
-            // this.state.message = 'You guessed incorrectly! ';
-            // console.log('Game Over reset values ');
             console.log('wrong guess!');
-            // this.setState({ clickedAvengerIds: [], score: 0, message: 'You guessed incorrectly! ' });
+            if(this.state.currScore > this.state.highScore) {
+                this.setState({
+                    highScore: this.state.currScore
+                })
+            }
+            this.resetGameBoard();
             return;
         } else {
-            //Update the state with updated values
+            let insertArray = this.state.clickedImageIds;
+            insertArray.push(id);
+            let tempScore = (this.state.currScore) + 1;
+
             this.setState({
-                //Add clicked picture to the array
-                clickedImageIds: this.state.clickedImageIds.push(id),
-                // clickedIMgIDs: this.state.clickedIMgIDs.concat([id]),
-                //Increment Score
-                // score: this.state.score + 1,
-                // topScore: this.state.score + 1,
-                //Display Message
-                // message: 'You guessed it correctly'
+                clickedImageIds: insertArray,
+                currScore: tempScore
             });
-            console.log("Score", this.state.currScore);
-            console.log("TopScore", this.state.highScore);
 
-            console.log(id);
+            console.log('you guessed a good one!');
+            console.log(`card id: ${id}`);
+            console.log(this.state.clickedImageIds);
 
         }
 
-        // renderCard(index) {
-        //     //const selectedCard = this.pickRandomCard();
+        this.shuffleDataAndSet();
 
-        //     return (
-        //         <Card
-        //             /* need to get rid of value */
-        //             //value={index}
-        //             //currCard={selectedCard}
-        //             /* FIXME: below needs work */
-        //             handleClick={this.handleItemClick}
-        //         // isWinningHandler={this.isWinningHandler()}
-        //         />
-        //     );
-        // }
-
-        // pickRandomCard() {
-        //     const randomIndex = Math.floor(Math.random() * 24) + 1;
-        //     return (
-        //         masterList[randomIndex]
-        //     );
-        }
-
-        setRandomCards = data => {
-            var i = data.length - 1; //should be 23
-            while (i > 12) {
-                //var r = Math.floor(Math.random() * i + 1) + 1;
-                var j = Math.floor(Math.random() * (i + 1));
-                const temp = data[i];
-                data[i] = data[j];
-                data[j] = temp;
-                i--;
-            }
-
-            return data;
-
-            // if(data.indexOf(r) === -1) selectedArray.push(r);
-
-            // return selectedArray;
-        }
-
-        render() {
-            return (
-                <div className="container-fluid">
-                    <Navbar />
-                    <Appheader />
-                    <div className="container">
-                        <div className="row">
-                            {/* Loop through all the items in the static list  */}
-                            {this.state.dataList.map(card => (
-                                <Card
-                                    id={card.cardKey}
-                                    key={card.cardKey}
-                                    imgUrl={card.imgUrl}
-                                    // onclick call the handle event to calculate score & shuffle array
-                                    clickPicture={this.handleItemClick}
-                                />
-                            ))}
-                        </div>
-                    </div>
-
-
-                    <div className="jumbotron">
-                        <hr className="my-2" />
-                        <h1 className="display-3">footer</h1>
-                        <p className="lead">Jumbo helper text</p>
-                        <hr className="my-2" />
-                    </div>
-
-                    {/* End of main contianer */}
-                </div>
-            );
-        }
     }
 
-    export default Board;
+    shuffleArrayOfCards = data => {
+        var i = data.length - 1; //should be 23
+        while (i > 12) {
+            //var r = Math.floor(Math.random() * i + 1) + 1;
+            var j = Math.floor(Math.random() * (i + 1));
+            const temp = data[i];
+            data[i] = data[j];
+            data[j] = temp;
+            i--;
+        }
+        return data;
+    }
+
+    updateHeaderScores() {
+
+    }
+
+    render() {
+        return (
+            <div className="container-fluid">
+                <Navbar />
+                <Appheader 
+                    playerScore={this.state.currScore}
+                    highScore={this.state.highScore}
+                    updateHeaderScores={this.updateHeaderScores}
+                />
+                <div className="container">
+                    <div className="row">
+                        {/* Loop through all the items in the static list  */}
+                        {this.state.dataListOf12.map(card => (
+                            <Card
+                                id={card.cardKey}
+                                key={card.cardKey}
+                                imgUrl={card.imgUrl}
+                                // onclick call the handle event to calculate score & shuffle array
+                                clickPicture={this.handleItemClick}
+                            />
+                        ))}
+                    </div>
+                </div>
+
+
+                <div className="jumbotron">
+                    <hr className="my-2" />
+                    <h1 className="display-3">footer</h1>
+                    <p className="lead">Jumbo helper text</p>
+                    <hr className="my-2" />
+                </div>
+
+                {/* End of main contianer */}
+            </div>
+        );
+    }
+}
+
+export default Board;
