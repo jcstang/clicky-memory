@@ -19,14 +19,20 @@ class Board extends Component {
             //cardList: imageCards,
             //currCardList: this.setRandomCards(),
             dataList: data,
+            selectedArrOf12: [],
             clickedImageIds: []
             /* TODO: keep track of 24 cards but only render 12 */
         };
     }
 
     componentDidMount() {
+
+        const fullShuffledList = this.setRandomCards(this.state.dataList);
+        const first12 = fullShuffledList.slice(0, 11);
+
         this.setState({
-            dataList: this.setRandomCards(this.state.dataList)
+            dataList: fullShuffledList,
+            selectedArrOf12: first12
         });
     }
 
@@ -49,48 +55,36 @@ class Board extends Component {
         return true;
     }
 
-    resetData = data => {
-        const resetData = data.map(item => ({ ...item, clicked: false }));
-        return this.shuffleData(resetData);
-    };
+    // resetData = data => {
+    //     const resetData = data.map(item => ({ ...item, clicked: false }));
+    //     return this.shuffleData(resetData);
+    // };
 
     handleItemClick = (id) => {
         // set the object with id as true
 
         //Check if the image is clicked twice
-        if (this.state.clickedIMgIDs.includes(id)) {
+        if (this.state.clickedImageIds.includes(id)) {
             // this.state.message = 'You guessed incorrectly! ';
-            console.log('Game Over reset values ')
-            this.setState({ clickedAvengerIds: [], score: 0, message: 'You guessed incorrectly! ' });
+            // console.log('Game Over reset values ');
+            console.log('wrong guess!');
+            // this.setState({ clickedAvengerIds: [], score: 0, message: 'You guessed incorrectly! ' });
             return;
         } else {
             //Update the state with updated values
             this.setState({
                 //Add clicked picture to the array
-                clickedIMgIDs: this.state.clickedIMgIDs.concat([id]),
+                clickedImageIds: this.state.clickedImageIds.push(id),
+                // clickedIMgIDs: this.state.clickedIMgIDs.concat([id]),
                 //Increment Score
-                score: this.state.score + 1,
+                // score: this.state.score + 1,
                 // topScore: this.state.score + 1,
                 //Display Message
-                message: 'You guessed it correctly'
+                // message: 'You guessed it correctly'
             });
-            console.log("Score", this.state.score);
-            console.log("TopScore", this.state.topScore);
+            console.log("Score", this.state.currScore);
+            console.log("TopScore", this.state.highScore);
 
-
-
-            // ** first try
-            //console.log("Card selected", event);
-            //     let guessedCorrectly = false;
-            // const newData = this.state.dataList.map(item => {
-            //   const newItem = { ...item };
-            //   if (newItem.id === id) {
-            //     if (!newItem.clicked) {
-            //       newItem.itemClicked = true;
-            //       guessedCorrectly = true;
-            //     }
-            //   }
-            //   return newItem;
             console.log(id);
 
         }
@@ -118,7 +112,7 @@ class Board extends Component {
         }
 
         setRandomCards = data => {
-            var i = data.length - 1;
+            var i = data.length - 1; //should be 23
             while (i > 12) {
                 //var r = Math.floor(Math.random() * i + 1) + 1;
                 var j = Math.floor(Math.random() * (i + 1));
