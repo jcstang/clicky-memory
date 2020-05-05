@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import Card from '../card/card';
 import Navbar from '../navbar/navbar';
 import Appheader from '../appheader/appheader';
-//import { masterList } from '../../data-list';
-import data from '../imgCards.json';
+import data from './data/imgCards.json';
 import './index.css';
 
 // let masterCardList = [];

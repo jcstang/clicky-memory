@@ -15,7 +15,7 @@ export default function Appheader(props) {
                         Score <span id="theScore">{props.playerScore}</span>
                     </div>
                     <div className="col-lg-4">
-                        Thing
+                        {/* message would live here */}
                     </div>
                     <div className="col-lg-4">
                         TopScore <span id="topScore">{props.highScore}</span>
