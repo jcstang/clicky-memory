@@ -5,22 +5,16 @@ import Appheader from '../appheader/appheader';
 import data from './data/imgCards.json';
 import './index.css';
 
-// let masterCardList = [];
-
 class Board extends Component {
     constructor(props) {
         super(props);
         this.state = {
             isGameAwesome: true,
-            guessStreakAlive: true,
             highScore: 0,
             currScore: 0,
-            //cardList: imageCards,
-            //currCardList: this.setRandomCards(),
             dataList: data,
             dataListOf12: [],
             clickedImageIds: []
-            /* TODO: keep track of 24 cards but only render 12 */
         };
     }
 
@@ -47,31 +41,7 @@ class Board extends Component {
         });
     }
 
-    // clickHandler(thing) {
-    //     /* modify state, other click things */
-    //     // console.log('hi I am a log consoling myself here');
-    //     console.log('*********************************************************');
-    //     console.log(`isGameAwesome: ${this.state.isGameAwesome}`);
-    //     console.log(`cardKey: ${this.state.cardKey}`);
-    //     this.setState({
-    //         isGameAwesome: !this.state.isGameAwesome
-    //     });
-
-    //     console.log('*********************************************************');
-    // }
-
-    // isWinningHandler() {
-    //     /* do stuff here to check if game won?? */
-    //     // console.log('isWinningHandler');
-    //     return true;
-    // }
-
-    // resetData = data => {
-    //     const resetData = data.map(item => ({ ...item, clicked: false }));
-    //     return this.shuffleData(resetData);
-    // };
-
-    handleItemClick = (id) => {
+    imageClickHandler = (id) => {
         // click handler should do the following
         // 1. check if clicked image had been selected before.
         // 1a. if false,
@@ -117,7 +87,6 @@ class Board extends Component {
     shuffleArrayOfCards = data => {
         var i = data.length - 1; //should be 23
         while (i > 12) {
-            //var r = Math.floor(Math.random() * i + 1) + 1;
             var j = Math.floor(Math.random() * (i + 1));
             const temp = data[i];
             data[i] = data[j];
@@ -148,8 +117,7 @@ class Board extends Component {
                                 id={card.cardKey}
                                 key={card.cardKey}
                                 imgUrl={card.imgUrl}
-                                // onclick call the handle event to calculate score & shuffle array
-                                clickPicture={this.handleItemClick}
+                                clickPicture={this.imageClickHandler}
                             />
                         ))}
                     </div>
