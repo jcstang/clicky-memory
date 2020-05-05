@@ -27,7 +27,7 @@ class Board extends Component {
 
     componentDidMount() {
 
-        const fullShuffledList = this.setRandomCards(this.state.dataList);
+        const fullShuffledList = this.shuffleArrayOfCards(this.state.dataList);
         const first12 = fullShuffledList.slice(0, 11);
 
         this.setState({
@@ -61,57 +61,41 @@ class Board extends Component {
     // };
 
     handleItemClick = (id) => {
-        // set the object with id as true
+        // click handler should do the following
+        // 1. check if clicked image had been selected before.
+        // 1a. if false,
+        //          then +1 to the score
+        //          then add the id to the array of clicked ids
+        // 1b. if true,
+        //          then stop game
+        //          then reset score
+        //          then clear the clicked ids array
+        // 2. shuffle the cards
+
 
         //Check if the image is clicked twice
         if (this.state.clickedImageIds.includes(id)) {
-            // this.state.message = 'You guessed incorrectly! ';
-            // console.log('Game Over reset values ');
             console.log('wrong guess!');
-            // this.setState({ clickedAvengerIds: [], score: 0, message: 'You guessed incorrectly! ' });
             return;
         } else {
-            //Update the state with updated values
+            let insertArray = this.state.clickedImageIds;
+            insertArray.push(id);
+            let tempScore = (this.state.currScore) + 1;
+
             this.setState({
-                //Add clicked picture to the array
-                clickedImageIds: this.state.clickedImageIds.push(id),
-                // clickedIMgIDs: this.state.clickedIMgIDs.concat([id]),
-                //Increment Score
-                // score: this.state.score + 1,
-                // topScore: this.state.score + 1,
-                //Display Message
-                // message: 'You guessed it correctly'
+                clickedImageIds: insertArray,
+                currScore: tempScore
             });
-            console.log("Score", this.state.currScore);
-            console.log("TopScore", this.state.highScore);
 
-            console.log(id);
+            console.log('you guessed a good one!');
+            console.log(`card id: ${id}`);
+            console.log(this.state.clickedImageIds);
 
         }
 
-        // renderCard(index) {
-        //     //const selectedCard = this.pickRandomCard();
+    }
 
-        //     return (
-        //         <Card
-        //             /* need to get rid of value */
-        //             //value={index}
-        //             //currCard={selectedCard}
-        //             /* FIXME: below needs work */
-        //             handleClick={this.handleItemClick}
-        //         // isWinningHandler={this.isWinningHandler()}
-        //         />
-        //     );
-        // }
-
-        // pickRandomCard() {
-        //     const randomIndex = Math.floor(Math.random() * 24) + 1;
-        //     return (
-        //         masterList[randomIndex]
-        //     );
-        }
-
-        setRandomCards = data => {
+        shuffleArrayOfCards = data => {
             var i = data.length - 1; //should be 23
             while (i > 12) {
                 //var r = Math.floor(Math.random() * i + 1) + 1;
