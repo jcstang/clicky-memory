@@ -3,6 +3,7 @@ import Card from '../card/card';
 import Navbar from '../navbar/navbar';
 import Appheader from '../appheader/appheader';
 import { masterList } from '../../data-list';
+import imageCards from '../imgCards.json';
 import './index.css';
 
 // let masterCardList = [];
@@ -13,12 +14,13 @@ class Board extends Component {
         this.state = {
             isGameAwesome: true,
             guessStreakAlive: true,
+            highScore: 0,
+            currScore: 0,
+            cardList: imageCards,
             currCardList: this.setRandomCards(),
             /* TODO: keep track of 24 cards but only render 12 */
         };
     }
-
-
 
     componentDidMount() {
 
