@@ -19,41 +19,53 @@ class Board extends Component {
             //cardList: imageCards,
             //currCardList: this.setRandomCards(),
             dataList: data,
-            selectedArrOf12: [],
+            dataListOf12: [],
             clickedImageIds: []
             /* TODO: keep track of 24 cards but only render 12 */
         };
     }
 
     componentDidMount() {
-
+        this.shuffleDataAndSet();
+    }
+    
+    shuffleDataAndSet() {
         const fullShuffledList = this.shuffleArrayOfCards(this.state.dataList);
-        const first12 = fullShuffledList.slice(0, 11);
-
+        const first12 = fullShuffledList.slice(0, 12);
+    
         this.setState({
             dataList: fullShuffledList,
-            selectedArrOf12: first12
+            dataListOf12: first12
         });
     }
 
-    clickHandler(thing) {
-        /* modify state, other click things */
-        // console.log('hi I am a log consoling myself here');
-        console.log('*********************************************************');
-        console.log(`isGameAwesome: ${this.state.isGameAwesome}`);
-        console.log(`cardKey: ${this.state.cardKey}`);
+    resetGameBoard() {
+        // reset score
+        // clear the clicked ids array
         this.setState({
-            isGameAwesome: !this.state.isGameAwesome
+            currScore: 0,
+            clickedImageIds: []
         });
-
-        console.log('*********************************************************');
     }
 
-    isWinningHandler() {
-        /* do stuff here to check if game won?? */
-        // console.log('isWinningHandler');
-        return true;
-    }
+    // clickHandler(thing) {
+    //     /* modify state, other click things */
+    //     // console.log('hi I am a log consoling myself here');
+    //     console.log('*********************************************************');
+    //     console.log(`isGameAwesome: ${this.state.isGameAwesome}`);
+    //     console.log(`cardKey: ${this.state.cardKey}`);
+    //     this.setState({
+    //         isGameAwesome: !this.state.isGameAwesome
+    //     });
+
+    //     console.log('*********************************************************');
+    // }
+
+    // isWinningHandler() {
+    //     /* do stuff here to check if game won?? */
+    //     // console.log('isWinningHandler');
+    //     return true;
+    // }
 
     // resetData = data => {
     //     const resetData = data.map(item => ({ ...item, clicked: false }));
@@ -76,6 +88,12 @@ class Board extends Component {
         //Check if the image is clicked twice
         if (this.state.clickedImageIds.includes(id)) {
             console.log('wrong guess!');
+            if(this.state.currScore > this.state.highScore) {
+                this.setState({
+                    highScore: this.state.currScore
+                })
+            }
+            this.resetGameBoard();
             return;
         } else {
             let insertArray = this.state.clickedImageIds;
@@ -93,58 +111,63 @@ class Board extends Component {
 
         }
 
+        this.shuffleDataAndSet();
+
     }
 
-        shuffleArrayOfCards = data => {
-            var i = data.length - 1; //should be 23
-            while (i > 12) {
-                //var r = Math.floor(Math.random() * i + 1) + 1;
-                var j = Math.floor(Math.random() * (i + 1));
-                const temp = data[i];
-                data[i] = data[j];
-                data[j] = temp;
-                i--;
-            }
-
-            return data;
-
-            // if(data.indexOf(r) === -1) selectedArray.push(r);
-
-            // return selectedArray;
+    shuffleArrayOfCards = data => {
+        var i = data.length - 1; //should be 23
+        while (i > 12) {
+            //var r = Math.floor(Math.random() * i + 1) + 1;
+            var j = Math.floor(Math.random() * (i + 1));
+            const temp = data[i];
+            data[i] = data[j];
+            data[j] = temp;
+            i--;
         }
+        return data;
+    }
 
-        render() {
-            return (
-                <div className="container-fluid">
-                    <Navbar />
-                    <Appheader />
-                    <div className="container">
-                        <div className="row">
-                            {/* Loop through all the items in the static list  */}
-                            {this.state.dataList.map(card => (
-                                <Card
-                                    id={card.cardKey}
-                                    key={card.cardKey}
-                                    imgUrl={card.imgUrl}
-                                    // onclick call the handle event to calculate score & shuffle array
-                                    clickPicture={this.handleItemClick}
-                                />
-                            ))}
-                        </div>
+    updateHeaderScores() {
+
+    }
+
+    render() {
+        return (
+            <div className="container-fluid">
+                <Navbar />
+                <Appheader 
+                    playerScore={this.state.currScore}
+                    highScore={this.state.highScore}
+                    updateHeaderScores={this.updateHeaderScores}
+                />
+                <div className="container">
+                    <div className="row">
+                        {/* Loop through all the items in the static list  */}
+                        {this.state.dataListOf12.map(card => (
+                            <Card
+                                id={card.cardKey}
+                                key={card.cardKey}
+                                imgUrl={card.imgUrl}
+                                // onclick call the handle event to calculate score & shuffle array
+                                clickPicture={this.handleItemClick}
+                            />
+                        ))}
                     </div>
-
-
-                    <div className="jumbotron">
-                        <hr className="my-2" />
-                        <h1 className="display-3">footer</h1>
-                        <p className="lead">Jumbo helper text</p>
-                        <hr className="my-2" />
-                    </div>
-
-                    {/* End of main contianer */}
                 </div>
-            );
-        }
-    }
 
-    export default Board;
+
+                <div className="jumbotron">
+                    <hr className="my-2" />
+                    <h1 className="display-3">footer</h1>
+                    <p className="lead">Jumbo helper text</p>
+                    <hr className="my-2" />
+                </div>
+
+                {/* End of main contianer */}
+            </div>
+        );
+    }
+}
+
+export default Board;
