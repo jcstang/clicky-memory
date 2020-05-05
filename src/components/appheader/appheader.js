@@ -6,8 +6,8 @@ import './index.css';
 export default function Appheader(props) {
     return (
         <div className="jumbotron ">
-            <h1 className="display-3">Jumbo heading</h1>
-            <p className="lead">Jumbo helper text</p>
+            <h1 className="display-3 text-center">The Professor's Memory Test</h1>
+            <p className="lead text-center">Test your Futrama skills, Don't click the same image twice!</p>
             <hr className="my-2" />
             <div className="container">
                 <div className="row">
