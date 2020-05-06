@@ -1,3 +1,13 @@
+
+## Clicky Memory Game
+
+Don't click the same image twice to get high score. 
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/360bbd2d-2232-4374-b63c-d456e9cecb40/deploy-status)](https://app.netlify.com/sites/gracious-banach-2d257d/deploys)
+
+
+## the text below is from generic create-react-app
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
